@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.edx.omarhezi.chateamos.R;
 import com.edx.omarhezi.chateamos.contacts.ContactListPresenter;
 import com.edx.omarhezi.chateamos.contacts.ContactListPresenterImpl;
+import com.edx.omarhezi.chateamos.contacts.addcontact.ui.AddContactFragment;
 import com.edx.omarhezi.chateamos.contacts.ui.adapters.ContactListAdapter;
 import com.edx.omarhezi.chateamos.contacts.ui.adapters.OnItemClickListenerInt;
 import com.edx.omarhezi.chateamos.entities.User;
@@ -91,7 +92,7 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
 
     @OnClick(R.id.fab)
     public void addContact() {
-
+        new AddContactFragment().show(getSupportFragmentManager(), "Add contact");
     }
 
     @Override

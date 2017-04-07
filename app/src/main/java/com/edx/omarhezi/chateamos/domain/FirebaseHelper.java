@@ -108,6 +108,7 @@ public class FirebaseHelper {
     }
 
     public void signOff(){
+        //I have made an edit
         notifyContactsOfConnectionChange(User.OFFLINE,true);
         FirebaseAuth.getInstance().signOut();
     }

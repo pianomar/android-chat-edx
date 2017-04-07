@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -55,32 +54,27 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
 
         setUpToolbar();
         setUpAdapter();
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.logout:
                 presenter.signOff();
                 Intent intent = new Intent(this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|
-                Intent.FLAG_ACTIVITY_NEW_TASK|
-                Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-                return true;
+                break;
             default:
-                return super.onOptionsItemSelected(item);
+                break;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setUpAdapter() {

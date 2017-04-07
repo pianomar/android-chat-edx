@@ -109,6 +109,7 @@ public class FirebaseHelper {
 
     public void signOff(){
         notifyContactsOfConnectionChange(User.OFFLINE,true);
+        FirebaseAuth.getInstance().signOut();
     }
 
     public void notifyContactsOfConnectionChange(final boolean online, final boolean signoff){

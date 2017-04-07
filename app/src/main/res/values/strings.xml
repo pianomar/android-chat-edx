@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Chateamos</string>
+    <string name="login.message.email">Email</string>
+    <string name="login.message.password">Password</string>
+    <string name="login.button.signin">Sign in</string>
+    <string name="login.button.signup">Sign up</string>
+    <string name="login.error.message.signin">Error signing in, %s</string>
+    <string name="login.error.message.signup">Error registering, %s</string>
+
+    <string name="login.success.message.signup">Successfully signed up</string>
+
+    <string name="contactlist.menu.action.signoff">Log off</string>
+    <string name="contact.title">Contacts</string>
+    <string name="title_activity_contact_list">ContactListActivity</string>
+</resources>

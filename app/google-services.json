@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "895684755536",
+    "firebase_url": "https://chatfirebase-11a70.firebaseio.com",
+    "project_id": "chatfirebase-11a70",
+    "storage_bucket": "chatfirebase-11a70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895684755536:android:4f3f44af757c3209",
+        "android_client_info": {
+          "package_name": "com.edx.omarhezi.chateamos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895684755536-tgh9hfqpmc7o32o17nfn43434on1avvq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edx.omarhezi.chateamos",
+            "certificate_hash": "95d1f66abba55e1afcc936a76ef2d6a81f91459a"
+          }
+        },
+        {
+          "client_id": "895684755536-8icge916bophue7v59cbseh5pilbiuqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAf5t8dIy8LtBbc1LejlktahHeaHBYLDlA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895684755536-8icge916bophue7v59cbseh5pilbiuqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

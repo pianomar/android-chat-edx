@@ -5,10 +5,10 @@ package com.edx.omarhezi.chateamos.chat;
  */
 
 public interface ChatInteractor {
-    void changeConnectionStatus();
+    void changeConnectionStatus(boolean bool);
     void sendMessage(String msg);
-    void setRecipient(String msg);
+    void setRecipient(String recipient);
     void subscribe();
-    void unsubscrube();
+    void unsubscribe();
     void destroyListener();
 }

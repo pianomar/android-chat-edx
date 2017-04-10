@@ -5,10 +5,10 @@ package com.edx.omarhezi.chateamos.chat;
  */
 
 public interface ChatRepository {
-    void changeConnectionStatus();
+    void changeConnectionStatus(boolean online);
 
     void sendMessage(String msg);
-    void setRecipient(String msg);
+    void setRecipient(String recipient);
 
     void subscribe();
     void unsubscrube();

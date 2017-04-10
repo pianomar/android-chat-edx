@@ -13,12 +13,17 @@ import android.widget.TextView;
 
 import com.edx.omarhezi.chateamos.R;
 import com.edx.omarhezi.chateamos.chat.ChatPresenter;
+import com.edx.omarhezi.chateamos.chat.ChatPresenterImpl;
+import com.edx.omarhezi.chateamos.chat.adapters.ChatAdapter;
 import com.edx.omarhezi.chateamos.entities.ChatMessage;
 import com.edx.omarhezi.chateamos.lib.GlideImageLoader;
 import com.edx.omarhezi.chateamos.lib.ImageLoader;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatActivity extends AppCompatActivity implements ChatView{
@@ -40,7 +45,7 @@ public class ChatActivity extends AppCompatActivity implements ChatView{
 
     final static public String STATUS_KEY = "online";
     final static public String EMAIL_KEY = "email";
-    private ChatPresenter presenter;
+    private ChatPresenterImpl presenter;
     private ChatAdapter adapter;
     ImageLoader imageLoader;
 
@@ -74,6 +79,8 @@ public class ChatActivity extends AppCompatActivity implements ChatView{
         txtStatus.setTextColor(color);
 
         imageLoader.load(imgAvatar, "https://goo.gl/9REjqV");
+
+        setSupportActionBar(toolbar);
     }
 
     private void setupRecyclerView() {
@@ -81,7 +88,8 @@ public class ChatActivity extends AppCompatActivity implements ChatView{
     }
 
     private void setupAdapter() {
-
+        adapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
+        recyclerViewChats.setAdapter(adapter);
     }
 
 
@@ -112,5 +120,11 @@ public class ChatActivity extends AppCompatActivity implements ChatView{
     protected void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
+    }
+
+    @OnClick(R.id.btnSendMessage)
+    public void sendMessage(){
+        presenter.sendMessage(editTextMessage.getText().toString());
+        editTextMessage.setText("");
     }
 }

@@ -26,7 +26,7 @@ class AddContactRepositoryImpl implements AddContactRepository {
     public void addContact(String email) {
         final String key = email.replace(".","_");
         DatabaseReference userReference = helper.getUserReference(key);
-        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() { //THIS READS DATA ONCE
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);

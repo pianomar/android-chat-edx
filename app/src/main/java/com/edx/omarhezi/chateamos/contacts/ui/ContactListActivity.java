@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.edx.omarhezi.chateamos.R;
+import com.edx.omarhezi.chateamos.chat.ui.ChatActivity;
 import com.edx.omarhezi.chateamos.contacts.ContactListPresenter;
 import com.edx.omarhezi.chateamos.contacts.ContactListPresenterImpl;
 import com.edx.omarhezi.chateamos.contacts.addcontact.ui.AddContactFragment;
@@ -129,7 +130,10 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
 
     @Override
     public void onItemClick(User user) {
-        Toast.makeText(this, user.getEmail(), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra(ChatActivity.EMAIL_KEY, user.getEmail());
+        intent.putExtra(ChatActivity.STATUS_KEY, user.isOnline());
+        startActivity(intent);
     }
 
     @Override

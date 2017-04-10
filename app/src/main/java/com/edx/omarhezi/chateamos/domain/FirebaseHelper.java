@@ -50,7 +50,6 @@ public class FirebaseHelper {
         String email=null;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user !=null){
-//            List<? extends UserInfo> providerData = user.getProviderData();
             email = user.getEmail();
         }
         return email;

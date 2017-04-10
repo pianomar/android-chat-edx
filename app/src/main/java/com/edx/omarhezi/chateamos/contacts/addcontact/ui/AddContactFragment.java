@@ -40,7 +40,7 @@ public class AddContactFragment extends DialogFragment implements AddContactView
     AddContactPresenter presenter;
 
     public AddContactFragment() {
-        presenter = new AddContactPresenterImpl();
+        presenter = new AddContactPresenterImpl(this);
     }
 
     @Override
@@ -92,6 +92,7 @@ public class AddContactFragment extends DialogFragment implements AddContactView
     public void contactAdded() {
         View view = getActivity().getCurrentFocus();
         Snackbar.make(view, "User has been added", Snackbar.LENGTH_SHORT).show();
+        dismiss();
     }
 
     @Override
@@ -128,6 +129,7 @@ public class AddContactFragment extends DialogFragment implements AddContactView
                 }
             });
         }
+        presenter.onShow();
     }
 
     @Override

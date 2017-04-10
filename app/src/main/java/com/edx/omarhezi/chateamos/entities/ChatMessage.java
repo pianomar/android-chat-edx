@@ -3,7 +3,7 @@ package com.edx.omarhezi.chateamos.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * Created by Lawrence Cermeño on 10/04/17.
+ * Created by Omar Hezi on 10/04/17.
  */
 
 @JsonIgnoreProperties({"sentByMe"})

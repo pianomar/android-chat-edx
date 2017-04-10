@@ -7,7 +7,7 @@ import com.edx.omarhezi.chateamos.lib.EventBusIntImpl;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
- * Created by Lawrence Cermeño on 10/04/17.
+ * Created by Omar Hezi on 10/04/17.
  */
 
 public class AddContactPresenterImpl implements AddContactPresenter {

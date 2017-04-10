@@ -11,7 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 /**
- * Created by Lawrence Cermeño on 10/04/17.
+ * Created by Omar Hezi on 10/04/17.
  */
 
 class ChatRepositoryImpl implements ChatRepository {

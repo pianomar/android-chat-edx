@@ -10,7 +10,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
- * Created by Lawrence Cermeño on 07/04/17.
+ * Created by Omar Hezi on 07/04/17.
  */
 
 public class ContactListPresenterImpl implements ContactListPresenter{

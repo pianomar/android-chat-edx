@@ -1,7 +1,7 @@
 package com.edx.omarhezi.chateamos.chat;
 
 /**
- * Created by Lawrence Cermeño on 10/04/17.
+ * Created by Omar Hezi on 10/04/17.
  */
 
 class ChatInteractorImpl implements com.edx.omarhezi.chateamos.chat.ChatInteractor {

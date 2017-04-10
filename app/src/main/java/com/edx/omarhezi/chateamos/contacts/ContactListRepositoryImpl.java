@@ -9,7 +9,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 /**
- * Created by Lawrence Cermeño on 07/04/17.
+ * Created by Omar Hezi on 07/04/17.
  */
 
 class ContactListRepositoryImpl implements ContactListRepository {

@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by Lawrence Cermeño on 06/04/17.
+ * Created by Omar Hezi on 06/04/17.
  */
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {

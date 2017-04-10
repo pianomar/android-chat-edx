@@ -6,7 +6,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * Created by Lawrence Cermeño on 04/04/17.
+ * Created by Omar Hezi on 04/04/17.
  */
 
 public class ChateamosApplication extends Application {

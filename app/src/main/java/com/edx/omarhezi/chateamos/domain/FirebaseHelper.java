@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Lawrence Cermeño on 04/04/17.
+ * Created by Omar Hezi on 04/04/17.
  */
 
 public class FirebaseHelper {

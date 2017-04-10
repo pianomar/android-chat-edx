@@ -1,7 +1,7 @@
 package com.edx.omarhezi.chateamos.lib;
 
 /**
- * Created by Lawrence Cermeño on 05/04/17.
+ * Created by Omar Hezi on 05/04/17.
  */
 
 public interface EventBusInt {

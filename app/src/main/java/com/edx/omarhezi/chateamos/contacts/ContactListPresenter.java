@@ -3,7 +3,7 @@ package com.edx.omarhezi.chateamos.contacts;
 import com.edx.omarhezi.chateamos.contacts.events.ContactListEvent;
 
 /**
- * Created by Lawrence Cermeño on 06/04/17.
+ * Created by Omar Hezi on 06/04/17.
  */
 
 public interface ContactListPresenter {

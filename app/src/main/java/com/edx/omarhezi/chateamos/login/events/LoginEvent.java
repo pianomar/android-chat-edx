@@ -1,7 +1,7 @@
 package com.edx.omarhezi.chateamos.login.events;
 
 /**
- * Created by Lawrence Cermeño on 05/04/17.
+ * Created by Omar Hezi on 05/04/17.
  */
 
 public class LoginEvent {

@@ -1,7 +1,5 @@
 package com.edx.omarhezi.chateamos.login;
 
-import android.util.Log;
-
 import com.edx.omarhezi.chateamos.lib.EventBusIntImpl;
 import com.edx.omarhezi.chateamos.login.events.LoginEvent;
 import com.edx.omarhezi.chateamos.login.ui.LoginView;
@@ -9,10 +7,10 @@ import com.edx.omarhezi.chateamos.login.ui.LoginView;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
- * Created by Lawrence Cermeño on 05/04/17.
+ * Created by Omar Hezi on 05/04/17.
  */
 
-public class LoginPresenterImpl implements LoginPresenter{
+public class LoginPresenterImpl implements LoginPresenter {
     private EventBusIntImpl eventBus;
     private LoginView loginView;
     private LoginInteractor loginInteractor;
@@ -36,7 +34,7 @@ public class LoginPresenterImpl implements LoginPresenter{
 
     @Override
     public void checkForAuthenticatedUser() {
-        if (loginView !=null){
+        if (loginView != null) {
             loginView.disableInputs();
             loginView.showProgressBar();
         }
@@ -46,27 +44,30 @@ public class LoginPresenterImpl implements LoginPresenter{
 
     @Override
     public void validateLogin(String email, String password) {
-        if (loginView !=null){
+        if (loginView != null) {
             loginView.disableInputs();
             loginView.showProgressBar();
         }
 
         loginInteractor.doSignIn(email, password);
+
     }
 
     @Override
     public void registerNewUser(String email, String password) {
-        if (loginView !=null){
+        if (loginView != null) {
             loginView.disableInputs();
             loginView.showProgressBar();
         }
+
         loginInteractor.doSignUp(email, password);
+
     }
 
     @Override
     @Subscribe
     public void onEventMainThread(LoginEvent event) {
-        switch(event.getEventType()){
+        switch (event.getEventType()) {
             case LoginEvent.onSignInSuccess:
                 onSignInSuccess();
                 break;
@@ -86,37 +87,35 @@ public class LoginPresenterImpl implements LoginPresenter{
         }
     }
 
-    private void onFailedToRecoverSession(){
-        if(loginView!=null){
+    private void onFailedToRecoverSession() {
+        if (loginView != null) {
             loginView.enableInputs();
             loginView.hideProgressBar();
         }
-
-        Log.e(this.getClass().getName(),"onFailedToRecoverSession");
     }
 
-    private void onSignInSuccess(){
-        if(loginView !=null){
+    private void onSignInSuccess() {
+        if (loginView != null) {
             loginView.navigateToMainScreen();
         }
     }
 
-    private void onSignUpSuccess(){
-        if(loginView !=null){
+    private void onSignUpSuccess() {
+        if (loginView != null) {
             loginView.newUserSuccess();
         }
     }
 
-    private void onSignInError(String error){
-        if(loginView!=null){
+    private void onSignInError(String error) {
+        if (loginView != null) {
             loginView.enableInputs();
             loginView.hideProgressBar();
             loginView.loginError(error);
         }
     }
 
-    private void onSignUpError(String error){
-        if(loginView!=null){
+    private void onSignUpError(String error) {
+        if (loginView != null) {
             loginView.enableInputs();
             loginView.hideProgressBar();
             loginView.newUserError(error);

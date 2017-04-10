@@ -3,7 +3,7 @@ package com.edx.omarhezi.chateamos.chat.events;
 import com.edx.omarhezi.chateamos.entities.ChatMessage;
 
 /**
- * Created by Lawrence Cermeño on 10/04/17.
+ * Created by Omar Hezi on 10/04/17.
  */
 
 public class ChatEvent {

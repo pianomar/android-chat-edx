@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @OnClick(R.id.btnSignup)
     @Override
     public void handleSignUp() {
+
         loginPresenter.registerNewUser(inputEmail.getText().toString(),
                                         inputPassword.getText().toString());
     }

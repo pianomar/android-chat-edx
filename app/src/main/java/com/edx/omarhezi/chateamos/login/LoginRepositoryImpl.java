@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 /**
- * Created by Lawrence Cermeño on 05/04/17.
+ * Created by Omar Hezi on 05/04/17.
  */
 
 public class LoginRepositoryImpl implements LoginRepository {
@@ -40,6 +40,11 @@ public class LoginRepositoryImpl implements LoginRepository {
 
     @Override
     public void signUp(final String email, final String password) {
+        if (password.equals("") || email.equals("")) {
+            postEvent(LoginEvent.onSignUpError, "Empty input");
+            return;
+        }
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -48,7 +53,7 @@ public class LoginRepositoryImpl implements LoginRepository {
                             postEvent(LoginEvent.onSignUpSuccess);
                             signIn(email, password);
                         } else {
-                            postEvent(LoginEvent.onSignUpError, task.getException().toString());
+                            postEvent(LoginEvent.onSignUpError, "");
                         }
                     }
                 });
@@ -58,7 +63,7 @@ public class LoginRepositoryImpl implements LoginRepository {
     public void signIn(String email, String password) {
 
         if (password.equals("") || email.equals("")) {
-            postEvent(LoginEvent.onSignInError);
+            postEvent(LoginEvent.onSignInError, "Empty input");
             return;
         }
 
@@ -89,7 +94,7 @@ public class LoginRepositoryImpl implements LoginRepository {
                                 }
                             });
                         } else {
-                            postEvent(LoginEvent.onSignInError);
+                            postEvent(LoginEvent.onSignInError, "");
                         }
                     }
                 });

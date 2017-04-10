@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 /**
- * Created by Lawrence Cermeño on 06/04/17.
+ * Created by Omar Hezi on 06/04/17.
  */
 
 public class GlideImageLoader implements ImageLoader {

@@ -1,7 +1,7 @@
 package com.edx.omarhezi.chateamos.contacts;
 
 /**
- * Created by Lawrence Cermeño on 07/04/17.
+ * Created by Omar Hezi on 07/04/17.
  */
 
 class ContactsListInteractorImpl implements ContactsListInteractor {

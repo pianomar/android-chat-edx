@@ -24,13 +24,11 @@ public class ChatPresenterImpl implements ChatPresenter {
     @Override
     public void onPause() {
         chatInteractor.unsubscribe();
-        chatInteractor.changeConnectionStatus(User.OFFLINE);
     }
 
     @Override
     public void onResume() {
         chatInteractor.subscribe();
-        chatInteractor.changeConnectionStatus(User.ONLINE);
     }
 
     @Override

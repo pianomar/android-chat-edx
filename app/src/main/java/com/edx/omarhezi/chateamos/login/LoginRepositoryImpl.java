@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginRepositoryImpl implements LoginRepository {
 
     private FirebaseHelper helper;
-    private DatabaseReference databaseReference;
+    private DatabaseReference dataReference;
     private DatabaseReference myUserReference;
 
     private FirebaseAuth mAuth;
@@ -33,7 +33,7 @@ public class LoginRepositoryImpl implements LoginRepository {
 
     public LoginRepositoryImpl() {
         this.helper = FirebaseHelper.getInstance();
-        this.databaseReference = helper.getDataReference();
+        this.dataReference = helper.getDataReference();
         this.myUserReference = helper.getMyUserReference();
         mAuth = FirebaseAuth.getInstance();
     }
@@ -78,13 +78,6 @@ public class LoginRepositoryImpl implements LoginRepository {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     User currentUser = dataSnapshot.getValue(User.class);
-//                                    if (currentUser == null) {
-//                                        String email = helper.getAuthUserEmail();
-//                                        if (email != null) {
-//                                            currentUser = new User();
-//                                            myUserReference.setValue(currentUser);
-//                                        }
-//                                    }
                                     helper.changeUserConnectionStatus(User.ONLINE);
                                 }
 

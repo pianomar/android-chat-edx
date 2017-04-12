@@ -5,7 +5,7 @@ package com.edx.omarhezi.chateamos.lib;
  */
 
 public interface EventBusInt {
-    public void register(Object subscriber);
-    public void deregister(Object subscriber);
-    public void post(Object Event);
+     void register(Object subscriber);
+     void deregister(Object subscriber);
+     void post(Object Event);
 }

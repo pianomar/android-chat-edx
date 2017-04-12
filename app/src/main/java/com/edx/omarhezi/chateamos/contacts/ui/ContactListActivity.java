@@ -98,6 +98,7 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
 
     @Override
     protected void onResume() {
+        presenter.onResume();
         super.onResume();
     }
 

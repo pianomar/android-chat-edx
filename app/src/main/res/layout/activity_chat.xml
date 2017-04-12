@@ -26,39 +26,32 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewChats"
+            android:layout_margin="@dimen/activity_margin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_margin">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btnSendMessage" />
 
-        </android.support.v7.widget.RecyclerView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/btnSendMessage" />
 
-            <EditText
-                android:id="@+id/editTextMessage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_weight="7" />
-
-            <ImageButton
-                android:id="@+id/btnSendMessage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_send"
-                android:backgroundTint="#fff"/>
-        </LinearLayout>
-
+        <ImageButton
+            android:id="@+id/btnSendMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:backgroundTint="#fff"
+            android:src="@android:drawable/ic_menu_send"/>
     </RelativeLayout>
 
 

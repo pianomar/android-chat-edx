@@ -107,9 +107,7 @@ public class FirebaseHelper {
     }
 
     public void signOff(){
-        //I have made an edit
         notifyContactsOfConnectionChange(User.OFFLINE,true);
-        FirebaseAuth.getInstance().signOut();
     }
 
     public void notifyContactsOfConnectionChange(final boolean online, final boolean signoff){
@@ -123,6 +121,7 @@ public class FirebaseHelper {
                     reference.setValue(online);
                 }
                 if(signoff){
+                    changeUserConnectionStatus(false);
                     FirebaseAuth.getInstance().signOut();
                 }
             }

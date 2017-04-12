@@ -61,7 +61,6 @@ public class LoginPresenterImpl implements LoginPresenter {
         }
 
         loginInteractor.doSignUp(email, password);
-
     }
 
     @Override

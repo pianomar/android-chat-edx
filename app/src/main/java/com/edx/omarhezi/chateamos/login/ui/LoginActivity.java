@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @OnClick(R.id.btnSignup)
     @Override
     public void handleSignUp() {
-
         loginPresenter.registerNewUser(inputEmail.getText().toString(),
                                         inputPassword.getText().toString());
     }
@@ -89,7 +88,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void navigateToMainScreen() {
-        startActivity(new Intent(this, ContactListActivity.class));
+        Intent intent = new Intent(this, ContactListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     @Override

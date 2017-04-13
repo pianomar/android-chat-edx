@@ -1,5 +1,7 @@
 package com.edx.omarhezi.chateamos.chat;
 
+import android.graphics.Bitmap;
+
 import com.edx.omarhezi.chateamos.chat.events.ChatEvent;
 
 /**
@@ -16,4 +18,6 @@ public interface ChatPresenter {
     void setChatRecipient(String recipient);
     void sendMessage(String msg,String type);
     void onEventMainThread(ChatEvent event);
+
+    void uploadImage(Bitmap bitmap);
 }

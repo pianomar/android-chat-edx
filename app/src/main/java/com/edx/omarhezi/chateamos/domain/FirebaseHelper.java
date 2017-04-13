@@ -3,15 +3,15 @@ package com.edx.omarhezi.chateamos.domain;
 import com.edx.omarhezi.chateamos.entities.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,13 +19,16 @@ import java.util.Map;
  */
 
 public class FirebaseHelper {
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+    private StorageReference mountainsRef;
     private DatabaseReference dataReference;
     private final static String SEPARATOR = "____";
     private final static String USERS_PATH = "users";
     private final static String CHATS_PATH = "chats";
-    private final static String TYPE_PATH = "type";
     private final static String CONTACTS_PATH = "contacts";
     private final static String FIREBASE_URL = "https://chatfirebase-11a70.firebaseio.com/";
+
 
     //The method that has an instance of the object of the class.
     private static class SingletonHolder{
@@ -39,6 +42,9 @@ public class FirebaseHelper {
 
     public FirebaseHelper(){
         dataReference = FirebaseDatabase.getInstance().getReferenceFromUrl(FIREBASE_URL);
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+        mountainsRef = storageRef.child("test.jpg");
     }
 
     public DatabaseReference getDataReference() {
@@ -132,5 +138,9 @@ public class FirebaseHelper {
 
             }
         });
+    }
+
+    public StorageReference getStorageRef(){
+        return mountainsRef;
     }
 }

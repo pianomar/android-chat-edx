@@ -1,5 +1,7 @@
 package com.edx.omarhezi.chateamos.chat;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Omar Hezi on 10/04/17.
  */
@@ -13,4 +15,6 @@ public interface ChatRepository {
     void subscribe();
     void unsubscrube();
     void destroyListener();
+
+    void uploadImage(Bitmap bitmap);
 }

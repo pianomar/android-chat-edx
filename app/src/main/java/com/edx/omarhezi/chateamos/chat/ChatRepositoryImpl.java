@@ -1,14 +1,24 @@
 package com.edx.omarhezi.chateamos.chat;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
 import com.edx.omarhezi.chateamos.chat.events.ChatEvent;
 import com.edx.omarhezi.chateamos.domain.FirebaseHelper;
 import com.edx.omarhezi.chateamos.entities.ChatMessage;
 import com.edx.omarhezi.chateamos.lib.EventBusInt;
 import com.edx.omarhezi.chateamos.lib.EventBusIntImpl;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by Omar Hezi on 10/04/17.
@@ -92,4 +102,32 @@ class ChatRepositoryImpl implements ChatRepository {
     public void destroyListener() {
         childEventListener = null;
     }
+
+    @Override
+    public void uploadImage(Bitmap bitmap) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = helper.getStorageRef().putBytes(data);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(this.getClass().getSimpleName(), e.toString());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            @SuppressWarnings("VisibleForTests")
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                ChatMessage chatMessage = new ChatMessage();
+//                chatMessage.setMsg(taskSnapshot.getDownloadUrl().toString());
+                sendMessage(taskSnapshot.getDownloadUrl().toString(), "image");
+            }
+        });
+
+    }
+
+
 }

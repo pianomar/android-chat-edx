@@ -1,6 +1,10 @@
 package com.edx.omarhezi.chateamos.chat;
+import android.graphics.Bitmap;
+
 import com.edx.omarhezi.chateamos.chat.events.ChatEvent;
 import com.edx.omarhezi.chateamos.chat.ui.ChatView;
+import com.edx.omarhezi.chateamos.entities.ImageMessage;
+import com.edx.omarhezi.chateamos.entities.TextMessage;
 import com.edx.omarhezi.chateamos.entities.User;
 import com.edx.omarhezi.chateamos.lib.EventBusIntImpl;
 
@@ -56,8 +60,20 @@ public class ChatPresenterImpl implements ChatPresenter {
     @Override
     @Subscribe
     public void onEventMainThread(ChatEvent event) {
-        if(view !=null){
-            view.onMessageReceived(event.getMessage());
+        if(view !=null ){
+            if (event.getMessage().getType().equals("text")){
+                TextMessage txtMessage = new TextMessage(event.getMessage().getMsg());
+                view.onMessageReceived(txtMessage);
+            }
+            else{
+                ImageMessage imgMessage = new ImageMessage(event.getMessage().getMsg());
+                view.onMessageReceived(imgMessage);
+            }
         }
+    }
+
+    @Override
+    public void uploadImage(Bitmap bitmap) {
+        chatInteractor.uploadImage(bitmap);
     }
 }

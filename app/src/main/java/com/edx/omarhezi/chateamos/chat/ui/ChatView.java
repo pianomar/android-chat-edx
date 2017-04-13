@@ -7,6 +7,5 @@ import com.edx.omarhezi.chateamos.entities.ChatMessage;
  */
 
 public interface ChatView {
-    void onMessageSent(String message);
     void onMessageReceived(ChatMessage message);
 }

@@ -16,6 +16,6 @@
         android:background="@color/colorPrimary"
         android:layout_gravity="left"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:maxHeight="84dp" />
+        android:maxHeight="120dp" />
 
 </LinearLayout>

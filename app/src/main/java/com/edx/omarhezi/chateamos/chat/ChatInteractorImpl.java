@@ -1,5 +1,7 @@
 package com.edx.omarhezi.chateamos.chat;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Omar Hezi on 10/04/17.
  */
@@ -40,5 +42,10 @@ class ChatInteractorImpl implements com.edx.omarhezi.chateamos.chat.ChatInteract
     @Override
     public void destroyListener() {
         repository.destroyListener();
+    }
+
+    @Override
+    public void uploadImage(Bitmap bitmap) {
+        repository.uploadImage(bitmap);
     }
 }

@@ -1,8 +1,12 @@
 package com.edx.omarhezi.chateamos.chat;
 import android.graphics.Bitmap;
+import android.view.Gravity;
+import android.widget.LinearLayout;
 
+import com.edx.omarhezi.chateamos.R;
 import com.edx.omarhezi.chateamos.chat.events.ChatEvent;
 import com.edx.omarhezi.chateamos.chat.ui.ChatView;
+import com.edx.omarhezi.chateamos.entities.ChatMessage;
 import com.edx.omarhezi.chateamos.entities.ImageMessage;
 import com.edx.omarhezi.chateamos.entities.TextMessage;
 import com.edx.omarhezi.chateamos.entities.User;
@@ -60,15 +64,19 @@ public class ChatPresenterImpl implements ChatPresenter {
     @Override
     @Subscribe
     public void onEventMainThread(ChatEvent event) {
+        ChatMessage msg;
         if(view !=null ){
             if (event.getMessage().getType().equals("text")){
-                TextMessage txtMessage = new TextMessage(event.getMessage().getMsg());
-                view.onMessageReceived(txtMessage);
+                msg = new TextMessage(event.getMessage().getMsg());
+                msg.setSentByMe(event.getMessage().isSentByMe());
+                view.onMessageReceived(msg);
             }
             else{
-                ImageMessage imgMessage = new ImageMessage(event.getMessage().getMsg());
-                view.onMessageReceived(imgMessage);
+                msg = new ImageMessage(event.getMessage().getMsg());
+                msg.setSentByMe(event.getMessage().isSentByMe());
+                view.onMessageReceived(msg);
             }
+
         }
     }
 

@@ -50,21 +50,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ChatMessage chatMessage = chatMessages.get(position);
-
-//        int color = fetchColor((R.attr.colorPrimary));
-//        int gravity = Gravity.LEFT;
-//
-//        if(!chatMessage.isSentByMe()){
-//            color = fetchColor(R.attr.colorAccent);
-//            gravity = Gravity.RIGHT;
-//        }
-//
-//        chatMessage.setBackgroundColor(color);
-//        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.itemView.getLayoutParams();
-//        params.gravity = gravity;
-//        holder.itemView.setLayoutParams(params);
-
         delegatesManager.onBindViewHolder(chatMessages, position, holder);
     }
 
@@ -78,15 +63,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
             chatMessages.add(message);
             notifyDataSetChanged();
         }
-    }
-
-    private int fetchColor(int color){
-        TypedValue typedValue = new TypedValue();
-        TypedArray a = context.obtainStyledAttributes(typedValue.data,
-                new int[] {color});
-        int returnColor = a.getColor(0,0);
-        a.recycle();
-        return returnColor;
     }
 
     @Override

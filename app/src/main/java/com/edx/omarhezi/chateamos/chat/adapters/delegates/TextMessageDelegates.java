@@ -1,8 +1,11 @@
 package com.edx.omarhezi.chateamos.chat.adapters.delegates;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +26,11 @@ import java.util.List;
 public class TextMessageDelegates extends AdapterDelegate<List<ChatMessage>> {
 
     LayoutInflater layoutInflater;
+    Context mContext;
 
     public TextMessageDelegates(Activity activity) {
         layoutInflater = activity.getLayoutInflater();
+        mContext = activity;
     }
 
     @Override
@@ -44,6 +49,21 @@ public class TextMessageDelegates extends AdapterDelegate<List<ChatMessage>> {
         TextMessageViewHolder vh = (TextMessageViewHolder) holder;
         TextMessage message = (TextMessage) items.get(position);
 
+        ChatMessage chatMessage = items.get(position);
+
+        int color = fetchColor((R.attr.colorPrimary));
+        int gravity = Gravity.LEFT;
+
+        if(!chatMessage.isSentByMe()){
+            color = fetchColor(R.attr.colorAccent);
+            gravity = Gravity.RIGHT;
+        }
+
+        ((TextMessageViewHolder) holder).message.setBackgroundColor(color);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((TextMessageViewHolder) holder).message.getLayoutParams();
+        params.gravity = gravity;
+        ((TextMessageViewHolder) holder).message.setLayoutParams(params);
+
         vh.message.setText(message.getMesssageContents());
     }
 
@@ -54,5 +74,14 @@ public class TextMessageDelegates extends AdapterDelegate<List<ChatMessage>> {
             super(itemView);
             message = (TextView) itemView.findViewById(R.id.txtViewMessage);
         }
+    }
+
+    public int fetchColor(int color){
+        TypedValue typedValue = new TypedValue();
+        TypedArray a = mContext.obtainStyledAttributes(typedValue.data,
+                new int[] {color});
+        int returnColor = a.getColor(0,0);
+        a.recycle();
+        return returnColor;
     }
 }

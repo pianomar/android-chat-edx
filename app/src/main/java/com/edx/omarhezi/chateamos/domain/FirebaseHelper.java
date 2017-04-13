@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,18 +45,19 @@ public class FirebaseHelper {
         dataReference = FirebaseDatabase.getInstance().getReferenceFromUrl(FIREBASE_URL);
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
-        mountainsRef = storageRef.child("test.jpg");
+        mountainsRef = storageRef.child(String.valueOf(System.currentTimeMillis()));
     }
 
     public DatabaseReference getDataReference() {
         return dataReference;
     }
 
-    //Get the authenticated user email at the moment, can be called if user hasn't create a
+    //Get the authenticated user email at the moment, can be called if user hasn't created a
     //session yet
     public String getAuthUserEmail(){
         String email=null;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (user !=null){
             email = user.getEmail();
         }

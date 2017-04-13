@@ -121,8 +121,6 @@ class ChatRepositoryImpl implements ChatRepository {
             @Override
             @SuppressWarnings("VisibleForTests")
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                ChatMessage chatMessage = new ChatMessage();
-//                chatMessage.setMsg(taskSnapshot.getDownloadUrl().toString());
                 sendMessage(taskSnapshot.getDownloadUrl().toString(), "image");
             }
         });

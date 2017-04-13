@@ -1,5 +1,6 @@
 package com.edx.omarhezi.chateamos.chat.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.edx.omarhezi.chateamos.R;
+import com.edx.omarhezi.chateamos.chat.adapters.delegates.ImageAdapterDelegates;
+import com.edx.omarhezi.chateamos.chat.adapters.delegates.TextMessageDelegates;
 import com.edx.omarhezi.chateamos.entities.ChatMessage;
+import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,41 +28,44 @@ import butterknife.ButterKnife;
  * Created by Omar Hezi on 10/04/17.
  */
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter {
 
     private Context context;
     private List<ChatMessage> chatMessages;
+    private AdapterDelegatesManager<List<ChatMessage>> delegatesManager;
 
-    public ChatAdapter(Context applicationContext, ArrayList<ChatMessage> chatMessages) {
+    public ChatAdapter(Activity activity, Context applicationContext, ArrayList<ChatMessage> chatMessages) {
         this.chatMessages = chatMessages;
         this.context = applicationContext;
+
+        delegatesManager = new AdapterDelegatesManager<>();
+        delegatesManager.addDelegate(new ImageAdapterDelegates(activity));
+        delegatesManager.addDelegate(new TextMessageDelegates(activity));
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_chat, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return delegatesManager.onCreateViewHolder(parent, viewType);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ChatMessage chatMessage = chatMessages.get(position);
 
-        String message = chatMessage.getMsg();
-        holder.txtMessage.setText(message);
+//        int color = fetchColor((R.attr.colorPrimary));
+//        int gravity = Gravity.LEFT;
+//
+//        if(!chatMessage.isSentByMe()){
+//            color = fetchColor(R.attr.colorAccent);
+//            gravity = Gravity.RIGHT;
+//        }
+//
+//        chatMessage.setBackgroundColor(color);
+//        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.itemView.getLayoutParams();
+//        params.gravity = gravity;
+//        holder.itemView.setLayoutParams(params);
 
-        int color = fetchColor((R.attr.colorPrimary));
-        int gravity = Gravity.LEFT;
-
-        if(!chatMessage.isSentByMe()){
-            color = fetchColor(R.attr.colorAccent);
-            gravity = Gravity.RIGHT;
-        }
-
-        holder.txtMessage.setBackgroundColor(color);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.txtMessage.getLayoutParams();
-        params.gravity = gravity;
-        holder.txtMessage.setLayoutParams(params);
+        delegatesManager.onBindViewHolder(chatMessages, position, holder);
     }
 
     @Override
@@ -73,7 +80,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
     }
 
-    public int fetchColor(int color){
+    private int fetchColor(int color){
         TypedValue typedValue = new TypedValue();
         TypedArray a = context.obtainStyledAttributes(typedValue.data,
                 new int[] {color});
@@ -82,16 +89,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         return returnColor;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.txtViewMessage)
-        TextView txtMessage;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
+    @Override
+    public int getItemViewType(int position) {
+        return delegatesManager.getItemViewType(chatMessages, position);
     }
-
-
-
 }

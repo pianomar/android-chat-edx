@@ -31,11 +31,12 @@ class ChatRepositoryImpl implements ChatRepository {
     }
 
     @Override
-    public void sendMessage(String msg) {
+    public void sendMessage(String msg, String type) {
         String keySender = helper.getAuthUserEmail();
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setSender(keySender);
         chatMessage.setMsg(msg);
+        chatMessage.setType(type);
 
         DatabaseReference chatsReference = helper.getChatsReference(recipient);
         chatsReference.push().setValue(chatMessage);

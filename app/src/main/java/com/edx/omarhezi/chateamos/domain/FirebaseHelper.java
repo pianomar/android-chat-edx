@@ -23,6 +23,7 @@ public class FirebaseHelper {
     private final static String SEPARATOR = "____";
     private final static String USERS_PATH = "users";
     private final static String CHATS_PATH = "chats";
+    private final static String TYPE_PATH = "type";
     private final static String CONTACTS_PATH = "contacts";
     private final static String FIREBASE_URL = "https://chatfirebase-11a70.firebaseio.com/";
 

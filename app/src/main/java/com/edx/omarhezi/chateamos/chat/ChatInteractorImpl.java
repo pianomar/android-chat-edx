@@ -18,8 +18,8 @@ class ChatInteractorImpl implements com.edx.omarhezi.chateamos.chat.ChatInteract
     }
 
     @Override
-    public void sendMessage(String msg) {
-        repository.sendMessage(msg);
+    public void sendMessage(String msg, String type) {
+        repository.sendMessage(msg,type);
     }
 
     @Override

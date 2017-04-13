@@ -6,7 +6,7 @@ package com.edx.omarhezi.chateamos.chat;
 
 public interface ChatInteractor {
     void changeConnectionStatus(boolean bool);
-    void sendMessage(String msg);
+    void sendMessage(String msg, String type);
     void setRecipient(String recipient);
     void subscribe();
     void unsubscribe();

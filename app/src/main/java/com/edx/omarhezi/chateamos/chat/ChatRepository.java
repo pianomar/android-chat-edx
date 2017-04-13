@@ -7,7 +7,7 @@ package com.edx.omarhezi.chateamos.chat;
 public interface ChatRepository {
     void changeConnectionStatus(boolean online);
 
-    void sendMessage(String msg);
+    void sendMessage(String msg, String type);
     void setRecipient(String recipient);
 
     void subscribe();

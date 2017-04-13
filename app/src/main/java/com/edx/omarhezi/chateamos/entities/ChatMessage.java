@@ -8,11 +8,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({"sentByMe"})
 public class ChatMessage {
+    private String type;
     private String msg;
     private String sender;
     private boolean sentByMe;
 
     public ChatMessage() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getMsg() {

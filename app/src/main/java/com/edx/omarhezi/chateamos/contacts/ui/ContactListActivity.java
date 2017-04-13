@@ -42,8 +42,6 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

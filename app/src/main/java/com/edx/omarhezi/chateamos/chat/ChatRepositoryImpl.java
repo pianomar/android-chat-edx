@@ -2,13 +2,14 @@ package com.edx.omarhezi.chateamos.chat;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.edx.omarhezi.chateamos.chat.events.ChatEvent;
 import com.edx.omarhezi.chateamos.domain.FirebaseHelper;
 import com.edx.omarhezi.chateamos.entities.ChatMessage;
-import com.edx.omarhezi.chateamos.lib.EventBusInt;
 import com.edx.omarhezi.chateamos.lib.EventBusIntImpl;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -19,6 +20,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Omar Hezi on 10/04/17.
@@ -29,6 +37,8 @@ class ChatRepositoryImpl implements ChatRepository {
     private EventBusIntImpl eventBus;
     private FirebaseHelper helper;
     private ChildEventListener childEventListener;
+
+    private String mCurrentPhotoPath;
 
     public ChatRepositoryImpl() {
         this.helper = FirebaseHelper.getInstance();
@@ -83,17 +93,19 @@ class ChatRepositoryImpl implements ChatRepository {
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         };
         helper.getChatsReference(recipient).addChildEventListener(childEventListener);
     }
 
     @Override
     public void unsubscrube() {
-        if(childEventListener!=null){
+        if (childEventListener != null) {
             helper.getChatsReference(recipient).removeEventListener(childEventListener);
         }
     }
@@ -104,13 +116,9 @@ class ChatRepositoryImpl implements ChatRepository {
     }
 
     @Override
-    public void uploadImage(Bitmap bitmap) {
+    public void uploadImage(InputStream sasa) {
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-
-        UploadTask uploadTask = helper.getStorageRef().putBytes(data);
+        UploadTask uploadTask = helper.getStorageRef().putStream(sasa);
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -124,8 +132,5 @@ class ChatRepositoryImpl implements ChatRepository {
                 sendMessage(taskSnapshot.getDownloadUrl().toString(), "image");
             }
         });
-
     }
-
-
 }

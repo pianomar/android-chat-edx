@@ -2,6 +2,9 @@ package com.edx.omarhezi.chateamos.chat;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
+import java.io.InputStream;
+
 /**
  * Created by Omar Hezi on 10/04/17.
  */
@@ -16,5 +19,5 @@ public interface ChatRepository {
     void unsubscrube();
     void destroyListener();
 
-    void uploadImage(Bitmap bitmap);
+    void uploadImage(InputStream sasa);
 }

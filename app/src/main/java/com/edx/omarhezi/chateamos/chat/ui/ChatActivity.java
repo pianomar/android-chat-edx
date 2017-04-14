@@ -1,21 +1,27 @@
 package com.edx.omarhezi.chateamos.chat.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edx.omarhezi.chateamos.R;
 import com.edx.omarhezi.chateamos.chat.ChatPresenterImpl;
@@ -24,7 +30,13 @@ import com.edx.omarhezi.chateamos.entities.ChatMessage;
 import com.edx.omarhezi.chateamos.lib.GlideImageLoader;
 import com.edx.omarhezi.chateamos.lib.ImageLoader;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,12 +67,16 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
 
     private ChatPresenterImpl presenter;
     private ChatAdapter adapter;
-    ImageLoader imageLoader;
+    private ImageLoader imageLoader;
+    private Uri uriImage;
 
     final static public int TAKE_PHOTO = 1;
     final static public int CHOOSE_FROM_GALLERY = 2;
 
-    Bitmap messageBitmap;
+    private Bitmap messageBitmap;
+    private int permitted = 0;
+
+    private String mCurrentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,17 +184,49 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     public void sendImageMessage() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, TAKE_PHOTO);
+            startActivityForResult(takePictureIntent, 1);
         }
+    }
+
+    private void capturarFoto() {
+        String file = dir+ DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString()+".jpg";
+
+
+        File newfile = new File(file);
+        final String dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/Folder/";
+        File newdir = new File(dir);
+        newdir.mkdirs();
+        try {
+            newfile.createNewFile();
+        } catch (IOException e) {}
+
+        Uri outputFileUri = Uri.fromFile(newfile);
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+        startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TAKE_PHOTO && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            messageBitmap = (Bitmap) extras.get("data");
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            presenter.uploadImage(messageBitmap);
+//            Uri uriImage = data.getData();
+
+
+            uriImage = Uri.fromFile(newdir);
+
+            InputStream inputStream = null;
+            try {
+                inputStream = getContentResolver().openInputStream(uriImage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            presenter.uploadImage(inputStream);
         }
     }
 }

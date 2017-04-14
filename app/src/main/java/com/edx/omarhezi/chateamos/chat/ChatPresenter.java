@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 
 import com.edx.omarhezi.chateamos.chat.events.ChatEvent;
 
+import java.io.File;
+import java.io.InputStream;
+
 /**
  * Created by Omar Hezi on 10/04/17.
  */
@@ -19,5 +22,5 @@ public interface ChatPresenter {
     void sendMessage(String msg,String type);
     void onEventMainThread(ChatEvent event);
 
-    void uploadImage(Bitmap bitmap);
+    void uploadImage(InputStream sasa);
 }

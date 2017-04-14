@@ -14,6 +14,9 @@ import com.edx.omarhezi.chateamos.lib.EventBusIntImpl;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
+import java.io.InputStream;
+
 /**
  * Created by Omar Hezi on 10/04/17.
  */
@@ -81,7 +84,8 @@ public class ChatPresenterImpl implements ChatPresenter {
     }
 
     @Override
-    public void uploadImage(Bitmap bitmap) {
-        chatInteractor.uploadImage(bitmap);
+    public void uploadImage(InputStream sasa) {
+        chatInteractor.uploadImage(sasa);
     }
+
 }

@@ -2,8 +2,8 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#8B2635</color>
 
-    <color name="sentColor">#3DD999</color>
-    <color name="receivedColor">#2D2D2D</color>
+    <color name="sentColor">#B5B1B2</color>
+    <color name="receivedColor">#8ACB88</color>
 </resources>

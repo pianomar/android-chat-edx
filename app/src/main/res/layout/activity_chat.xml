@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.edx.omarhezi.chateamos.chat.ui.ChatActivity"
-    android:background="#e3e3e3">
+    android:background="#ffffff">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -32,7 +32,8 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewChats"
-            android:layout_margin="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_marginLeft="@dimen/activity_margin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"

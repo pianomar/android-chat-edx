@@ -1,7 +1,7 @@
 package com.edx.omarhezi.chateamos.chat.ui;
 
+import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +25,14 @@ import com.edx.omarhezi.chateamos.chat.adapters.ChatAdapter;
 import com.edx.omarhezi.chateamos.entities.ChatMessage;
 import com.edx.omarhezi.chateamos.lib.GlideImageLoader;
 import com.edx.omarhezi.chateamos.lib.ImageLoader;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,9 +93,10 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
 
         setupAdapter();
         setupRecyclerView();
-        setupToolbar(online,recipient);
-    }
+        setupToolbar(online, recipient);
 
+
+    }
 
 
     private void setupToolbar(boolean online, String recipient) {
@@ -171,26 +181,42 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
 
     @OnClick(R.id.btnCamera)
     public void sendImageMessage() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            takePhoto();
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriImage);
-            startActivityForResult(cameraIntent, TAKE_PHOTO);
-        }
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                            takePhoto();
+                            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriImage);
+                            startActivityForResult(cameraIntent, TAKE_PHOTO);
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+
+                    }
+                }).check();
+
     }
 
     private void takePhoto() {
-        final String dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/Folder/";
+        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
         File newdir = new File(dir);
         newdir.mkdirs();
 
-        String file = dir+ DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString()+".jpg";
+        String file = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
         File newfile = new File(file);
 
         try {
-           newfile.createNewFile();
-        } catch (IOException e) {}
+            newfile.createNewFile();
+        } catch (IOException e) {
+        }
 
         uriImage = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", newfile);
     }
@@ -198,7 +224,7 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == TAKE_PHOTO || requestCode == CHOOSE_FROM_GALLERY) && resultCode == RESULT_OK) {
-            if(requestCode == CHOOSE_FROM_GALLERY){
+            if (requestCode == CHOOSE_FROM_GALLERY) {
                 uriImage = data.getData();
             }
             InputStream inputStream = null;

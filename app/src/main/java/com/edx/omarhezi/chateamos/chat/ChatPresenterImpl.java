@@ -49,6 +49,7 @@ public class ChatPresenterImpl implements ChatPresenter {
 
     @Override
     public void onDestroy() {
+        chatInteractor.unsubscribe();
         eventBus.deregister(this);
         chatInteractor.destroyListener();
         view = null;

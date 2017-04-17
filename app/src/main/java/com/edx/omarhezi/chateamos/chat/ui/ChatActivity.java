@@ -1,16 +1,12 @@
 package com.edx.omarhezi.chateamos.chat.ui;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +30,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -77,6 +72,7 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     private int permitted = 0;
 
     private String mCurrentPhotoPath;
+    private Uri outputFileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,28 +180,28 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     public void sendImageMessage() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, 1);
+            capturarFoto();
         }
     }
 
     private void capturarFoto() {
-        String file = dir+ DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString()+".jpg";
-
-
-        File newfile = new File(file);
         final String dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/Folder/";
         File newdir = new File(dir);
         newdir.mkdirs();
+
+        String file = dir+ DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString()+".jpg";
+        File newfile = new File(file);
+
         try {
-            newfile.createNewFile();
+           newfile.createNewFile();
         } catch (IOException e) {}
 
-        Uri outputFileUri = Uri.fromFile(newfile);
+        uriImage = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", newfile);
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriImage);
 
-        startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
+        startActivityForResult(cameraIntent, TAKE_PHOTO);
     }
 
     @Override
@@ -215,9 +211,6 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
 //            Bitmap imageBitmap = (Bitmap) extras.get("data");
 
 //            Uri uriImage = data.getData();
-
-
-            uriImage = Uri.fromFile(newdir);
 
             InputStream inputStream = null;
             try {

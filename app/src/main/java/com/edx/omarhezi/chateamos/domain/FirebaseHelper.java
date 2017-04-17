@@ -22,7 +22,7 @@ import java.util.Map;
 public class FirebaseHelper {
     private FirebaseStorage storage;
     private StorageReference storageRef;
-    private StorageReference mountainsRef;
+    private StorageReference cameraImageRef;
     private DatabaseReference dataReference;
     private final static String SEPARATOR = "____";
     private final static String USERS_PATH = "users";
@@ -45,7 +45,7 @@ public class FirebaseHelper {
         dataReference = FirebaseDatabase.getInstance().getReferenceFromUrl(FIREBASE_URL);
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
-        mountainsRef = storageRef.child(String.valueOf(System.currentTimeMillis()));
+        cameraImageRef = storageRef.child(String.valueOf(System.currentTimeMillis()));
     }
 
     public DatabaseReference getDataReference() {
@@ -143,6 +143,6 @@ public class FirebaseHelper {
     }
 
     public StorageReference getStorageRef(){
-        return mountainsRef;
+        return cameraImageRef;
     }
 }

@@ -34,16 +34,16 @@ public class ChatPresenterImpl implements ChatPresenter {
 
     @Override
     public void onPause() {
-        chatInteractor.unsubscribe();
     }
 
     @Override
     public void onResume() {
-        chatInteractor.subscribe();
+
     }
 
     @Override
     public void onCreate() {
+        chatInteractor.subscribe();
         eventBus.register(this);
     }
 
@@ -68,24 +68,24 @@ public class ChatPresenterImpl implements ChatPresenter {
     @Subscribe
     public void onEventMainThread(ChatEvent event) {
         ChatMessage msg;
+        String messageType = event.getMessage().getType();
+        String eventMessage = event.getMessage().getMsg();
         if(view !=null ){
-            if (event.getMessage().getType().equals("text")){
-                msg = new TextMessage(event.getMessage().getMsg());
-                msg.setSentByMe(event.getMessage().isSentByMe());
-                view.onMessageReceived(msg);
+            if (messageType.equals("text")){
+                msg = new TextMessage(eventMessage);
             }
             else{
-                msg = new ImageMessage(event.getMessage().getMsg());
-                msg.setSentByMe(event.getMessage().isSentByMe());
-                view.onMessageReceived(msg);
+                msg = new ImageMessage(eventMessage);
             }
 
+            msg.setSentByMe(event.getMessage().isSentByMe());
+            view.onMessageReceived(msg);
         }
     }
 
     @Override
-    public void uploadImage(InputStream sasa) {
-        chatInteractor.uploadImage(sasa);
+    public void uploadImage(InputStream stream) {
+        chatInteractor.uploadImage(stream);
     }
 
 }

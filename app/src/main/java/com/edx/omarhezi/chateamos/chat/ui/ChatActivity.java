@@ -57,6 +57,7 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     @BindView(R.id.btnCamera)
     ImageButton btnCamera;
 
+
     final static public String STATUS_KEY = "online";
     final static public String EMAIL_KEY = "email";
 
@@ -68,12 +69,6 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     final static public int TAKE_PHOTO = 1;
     final static public int CHOOSE_FROM_GALLERY = 2;
 
-    private Bitmap messageBitmap;
-    private int permitted = 0;
-
-    private String mCurrentPhotoPath;
-    private Uri outputFileUri;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,21 +76,20 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
         ButterKnife.bind(this);
 
         imageLoader = new GlideImageLoader(getApplicationContext());
-
+        String recipient = getIntent().getStringExtra(EMAIL_KEY);
+        boolean online = getIntent().getBooleanExtra(STATUS_KEY, false);
         presenter = new ChatPresenterImpl(this);
+        presenter.setChatRecipient(recipient);
         presenter.onCreate();
-
-        messageBitmap = null;
 
         setupAdapter();
         setupRecyclerView();
-        setupToolbar(getIntent());
+        setupToolbar(online,recipient);
     }
 
-    private void setupToolbar(Intent i) {
-        String recipient = i.getStringExtra(EMAIL_KEY);
-        boolean online = i.getBooleanExtra(STATUS_KEY, false);
-        presenter.setChatRecipient(recipient);
+
+
+    private void setupToolbar(boolean online, String recipient) {
 
         String email = recipient;
         String status = online ? "online" : "offline";
@@ -123,7 +117,6 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.chat_menu, menu);
         return super.onCreateOptionsMenu(menu);
-
     }
 
     @Override
@@ -168,7 +161,7 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     @OnClick(R.id.btnSendMessage)
     public void sendMessage() {
         String message = editTextMessage.getText().toString();
-        String type = messageBitmap == null ? "text" : "image";
+        String type = uriImage == null ? "text" : "image";
 
         if (!message.equals("")) {
             presenter.sendMessage(message, type);
@@ -180,11 +173,14 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     public void sendImageMessage() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            capturarFoto();
+            takePhoto();
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriImage);
+            startActivityForResult(cameraIntent, TAKE_PHOTO);
         }
     }
 
-    private void capturarFoto() {
+    private void takePhoto() {
         final String dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/Folder/";
         File newdir = new File(dir);
         newdir.mkdirs();
@@ -197,28 +193,20 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
         } catch (IOException e) {}
 
         uriImage = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", newfile);
-
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriImage);
-
-        startActivityForResult(cameraIntent, TAKE_PHOTO);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == TAKE_PHOTO && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-//            Uri uriImage = data.getData();
-
+        if ((requestCode == TAKE_PHOTO || requestCode == CHOOSE_FROM_GALLERY) && resultCode == RESULT_OK) {
+            if(requestCode == CHOOSE_FROM_GALLERY){
+                uriImage = data.getData();
+            }
             InputStream inputStream = null;
             try {
                 inputStream = getContentResolver().openInputStream(uriImage);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
             presenter.uploadImage(inputStream);
         }
     }

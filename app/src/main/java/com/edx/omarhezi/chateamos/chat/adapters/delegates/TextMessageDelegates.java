@@ -1,6 +1,7 @@
 package com.edx.omarhezi.chateamos.chat.adapters.delegates;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.edx.omarhezi.chateamos.R;
+import com.edx.omarhezi.chateamos.chat.ui.MesssageLayoutHelper;
 import com.edx.omarhezi.chateamos.entities.ChatMessage;
 import com.edx.omarhezi.chateamos.entities.TextMessage;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
@@ -50,19 +52,8 @@ public class TextMessageDelegates extends AdapterDelegate<List<ChatMessage>> {
         TextMessage message = (TextMessage) items.get(position);
 
         ChatMessage chatMessage = items.get(position);
-
-        int color = fetchColor((R.attr.colorPrimary));
-        int gravity = Gravity.LEFT;
-
-        if(!chatMessage.isSentByMe()){
-            color = fetchColor(R.attr.colorAccent);
-            gravity = Gravity.RIGHT;
-        }
-
-        ((TextMessageViewHolder) holder).message.setBackgroundColor(color);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((TextMessageViewHolder) holder).message.getLayoutParams();
-        params.gravity = gravity;
-        ((TextMessageViewHolder) holder).message.setLayoutParams(params);
+        MesssageLayoutHelper messsageLayoutHelper = new MesssageLayoutHelper();
+        messsageLayoutHelper.setMessageLayout(chatMessage,vh.message,mContext);
 
         vh.message.setText(message.getMesssageContents());
     }
@@ -76,12 +67,4 @@ public class TextMessageDelegates extends AdapterDelegate<List<ChatMessage>> {
         }
     }
 
-    public int fetchColor(int color){
-        TypedValue typedValue = new TypedValue();
-        TypedArray a = mContext.obtainStyledAttributes(typedValue.data,
-                new int[] {color});
-        int returnColor = a.getColor(0,0);
-        a.recycle();
-        return returnColor;
-    }
 }

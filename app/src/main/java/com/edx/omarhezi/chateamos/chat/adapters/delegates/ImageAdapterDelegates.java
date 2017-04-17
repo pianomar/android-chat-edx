@@ -15,7 +15,9 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.edx.omarhezi.chateamos.R;
+import com.edx.omarhezi.chateamos.chat.ui.MesssageLayoutHelper;
 import com.edx.omarhezi.chateamos.entities.ChatMessage;
 import com.edx.omarhezi.chateamos.entities.ImageMessage;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
@@ -32,7 +34,6 @@ public class ImageAdapterDelegates extends AdapterDelegate<List<ChatMessage>>{
     private RequestManager requestManager;
 
     Context mContext;
-
 
     public ImageAdapterDelegates(Activity activity) {
         this.requestManager = Glide.with(activity);
@@ -57,21 +58,13 @@ public class ImageAdapterDelegates extends AdapterDelegate<List<ChatMessage>>{
         ImageMessage imageMessage = (ImageMessage) items.get(position);
 
         ChatMessage chatMessage = items.get(position);
+        MesssageLayoutHelper messsageLayoutHelper = new MesssageLayoutHelper();
+        messsageLayoutHelper.setMessageLayout(chatMessage,vh.message,mContext);
 
-        int color = fetchColor((R.attr.colorPrimary));
-        int gravity = Gravity.LEFT;
-
-        if(!chatMessage.isSentByMe()){
-            color = fetchColor(R.attr.colorAccent);
-            gravity = Gravity.RIGHT;
-        }
-
-        ((ImageMessageViewHolder) holder).message.setBackgroundColor(color);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ImageMessageViewHolder) holder).message.getLayoutParams();
-        params.gravity = gravity;
-        ((ImageMessageViewHolder) holder).message.setLayoutParams(params);
-
-        requestManager.load(imageMessage.getImage()).into(vh.message);
+        requestManager.load(imageMessage.getImage()).
+                thumbnail(requestManager.load(R.drawable.loading)).
+                fitCenter().
+                into(vh.message);
     }
 
 
@@ -82,14 +75,5 @@ public class ImageAdapterDelegates extends AdapterDelegate<List<ChatMessage>>{
             super(itemView);
             message = (ImageView) itemView.findViewById(R.id.imageMessageImgView);
         }
-    }
-
-    public int fetchColor(int color){
-        TypedValue typedValue = new TypedValue();
-        TypedArray a = mContext.obtainStyledAttributes(typedValue.data,
-                new int[] {color});
-        int returnColor = a.getColor(0,0);
-        a.recycle();
-        return returnColor;
     }
 }

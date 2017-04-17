@@ -55,7 +55,7 @@ public class ChatMessage {
         if (obj instanceof User) {
             ChatMessage message = (ChatMessage) obj;
             equal = this.sender.equals(message.getSender()) &&
-                    this.msg.equals(message.getSender()) &&
+                    this.msg.equals(message.getMsg()) &&
                     this.sentByMe == message.sentByMe;
         }
 

@@ -39,7 +39,7 @@ class ChatInteractorImpl implements com.edx.omarhezi.chateamos.chat.ChatInteract
 
     @Override
     public void unsubscribe() {
-        repository.unsubscrube();
+        repository.unsubscribe();
     }
 
     @Override
@@ -48,7 +48,7 @@ class ChatInteractorImpl implements com.edx.omarhezi.chateamos.chat.ChatInteract
     }
 
     @Override
-    public void uploadImage(InputStream sasa) {
-        repository.uploadImage(sasa);
+    public void uploadImage(InputStream stream) {
+        repository.uploadImage(stream);
     }
 }

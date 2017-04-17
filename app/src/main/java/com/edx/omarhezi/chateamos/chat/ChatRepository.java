@@ -16,7 +16,7 @@ public interface ChatRepository {
     void setRecipient(String recipient);
 
     void subscribe();
-    void unsubscrube();
+    void unsubscribe();
     void destroyListener();
 
     void uploadImage(InputStream sasa);

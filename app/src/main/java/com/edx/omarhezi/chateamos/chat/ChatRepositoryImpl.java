@@ -1,10 +1,6 @@
 package com.edx.omarhezi.chateamos.chat;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.edx.omarhezi.chateamos.chat.events.ChatEvent;
@@ -19,14 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Omar Hezi on 10/04/17.
@@ -37,8 +26,6 @@ class ChatRepositoryImpl implements ChatRepository {
     private EventBusIntImpl eventBus;
     private FirebaseHelper helper;
     private ChildEventListener childEventListener;
-
-    private String mCurrentPhotoPath;
 
     public ChatRepositoryImpl() {
         this.helper = FirebaseHelper.getInstance();
@@ -69,6 +56,7 @@ class ChatRepositoryImpl implements ChatRepository {
 
     @Override
     public void subscribe() {
+
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -79,6 +67,7 @@ class ChatRepositoryImpl implements ChatRepository {
 
                 ChatEvent chatEvent = new ChatEvent();
                 chatEvent.setMessage(chatMessage);
+
                 eventBus.post(chatEvent);
             }
 
@@ -100,11 +89,12 @@ class ChatRepositoryImpl implements ChatRepository {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
+
         helper.getChatsReference(recipient).addChildEventListener(childEventListener);
     }
 
     @Override
-    public void unsubscrube() {
+    public void unsubscribe() {
         if (childEventListener != null) {
             helper.getChatsReference(recipient).removeEventListener(childEventListener);
         }
@@ -116,9 +106,8 @@ class ChatRepositoryImpl implements ChatRepository {
     }
 
     @Override
-    public void uploadImage(InputStream sasa) {
-
-        UploadTask uploadTask = helper.getStorageRef().putStream(sasa);
+    public void uploadImage(InputStream stream) {
+        UploadTask uploadTask = helper.getStorageRef().putStream(stream);
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
